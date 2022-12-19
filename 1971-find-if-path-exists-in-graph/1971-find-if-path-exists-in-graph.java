@@ -11,21 +11,20 @@ class Solution {
         }
         
         Set<Integer> visited = new HashSet<>() ;
-        Queue<Integer> q = new LinkedList<>() ;
-        q.add(source) ;
+        dfs(source,destination,graph,visited) ;
         
-        while(!q.isEmpty()){
-            int node = q.remove() ;
-            if(visited.contains(node)) continue ;
-            visited.add(node) ;
-            
-            if(destination == node) return true ;
-            
-            for(int neighbours : graph.get(node)){
-                q.add(neighbours) ;
-            }
+        return visited.contains(destination) ;
+    }
+    
+    private void dfs (int s, int d, List<List<Integer>> graph, Set<Integer> visited){
+        
+        if(visited.contains(d)) return ;
+        
+        if(visited.contains(s)) return ;
+        visited.add(s) ;
+        
+        for(int neighbours : graph.get(s)){
+            dfs(neighbours,d,graph,visited) ;
         }
-        
-        return false ;
     }
 }
