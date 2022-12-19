@@ -14,7 +14,9 @@ class Solution {
         // dfs(source,destination,graph,visited) ;
         // return visited.contains(destination) ;
         
-        return bfs(source,destination,graph,visited) ;
+        // return bfs(source,destination,graph,visited) ;
+        
+        return dsu(n,edges,source,destination) ;
         
     }
     
@@ -47,5 +49,42 @@ class Solution {
         }
         
         return false ;
+    }
+    
+    private boolean dsu(int n, int[][] edges, int source, int destination){
+        int[] parents = new int[n] ;
+        int[] heights = new int[n] ;
+        
+        for(int i=0; i<n; i++){
+            parents[i] = i ;
+        }
+        
+        for(int[] edge : edges){
+            union(edge[0],edge[1],parents,heights) ;
+        }
+        
+        return findRoot(source,parents) == findRoot(destination,parents) ;
+    }
+    private void union(int x, int y, int[] parents, int[] heights){
+        int r1 = findRoot(x,parents);
+        int r2 = findRoot(y,parents);
+
+        if(r1 == r2) return;
+
+        if(heights[r1] == heights[r2]){
+            parents[r2] = r1;
+            heights[r1]++;
+        }
+        else if(heights[r1] < heights[r2]){
+            parents[r1] = r2;
+        }
+        else parents[r2] = r1;
+    }
+    private int findRoot(int node, int[] parents){
+        
+        if(node == parents[node]) return node;
+        parents[node] = findRoot(parents[node],parents);
+
+        return parents[node];
     }
 }
