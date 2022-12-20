@@ -1,12 +1,12 @@
 class Solution {
     public boolean canVisitAllRooms(List<List<Integer>> rooms) {
     
-        // return bfs(rooms) ;
+        return bfs(rooms) ;
         
-        Set<Integer> visited = new HashSet<>() ;
-        visited.add(0) ;
+//         Set<Integer> visited = new HashSet<>() ;
+//         visited.add(0) ;
         
-        return dfs(0,visited,rooms) ;
+//         return dfs(0,visited,rooms) ;
     }
     private boolean dfs(int room, Set<Integer> visited, List<List<Integer>> keys){
         for(int key : keys.get(room)){
