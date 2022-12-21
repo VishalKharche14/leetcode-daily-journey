@@ -1,29 +1,14 @@
 class Solution {
     public long makeIntegerBeautiful(long n, int target) {
-        long currSum = getSum(n) ;
-        long diff = currSum - target ;
-        
-        if(diff <= 0) return 0l ;
-        
-        StringBuilder sb = new StringBuilder() ;
-        while(currSum > target){
-            long lastDigit = n % 10 ;
-            
-            if(lastDigit != 0){
-                sb.append(10-lastDigit);
-                n /= 10 ;
-                n++ ;
-            }
-            else {
-                sb.append(0) ;
-                n /= 10 ;
-            }
-            
-            currSum = getSum(n) ;
+        long num = n ;
+        double p = 10 ;
+        while(digitSum(num) > target){
+            num = (long)(Math.ceil(num/p)*p) ;
+            p*=10 ;
         }
-        return Long.parseLong(sb.reverse().toString()) ;
+        return num - n ;
     }
-    private long getSum(long n){
+    private long digitSum(long n){
         long sum = 0;
         while(n > 0){
             sum += n%10 ;
