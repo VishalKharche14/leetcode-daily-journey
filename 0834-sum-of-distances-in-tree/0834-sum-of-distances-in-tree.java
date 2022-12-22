@@ -10,10 +10,14 @@ class Solution {
             graph.get(edge[1]).add(edge[0]) ;
         }
         
-        int[] countOfNodes = new int[n] ;
         int[] distance = new int[n] ;
-        
+        int[] countOfNodes = new int[n] ;
+        Arrays.fill(countOfNodes,1) ;
+        // in preProcessing, we are storing count of nodes of all subtrees w.r.t the nodes
+        // also we are storing distance of childs from the current node.
         preProcessTree(0,-1,graph,countOfNodes,distance) ;
+        //  in solve method, we are calculating final answer by the relation that as we traverse,
+        // we move near to some nodes and moves far from some nodes simultaneously.
         solve(0,-1,graph,countOfNodes,distance) ;
         
         return distance ;
@@ -26,7 +30,6 @@ class Solution {
             countOfNodes[currNode] += countOfNodes[node] ;
             distance[currNode] += (distance[node] + countOfNodes[node]) ;
         }
-        countOfNodes[currNode]++ ;
     }
     private void solve(int currNode, int parent, List<List<Integer>> graph, int[] countOfNodes, int[] distance){
         for(int node : graph.get(currNode)){
