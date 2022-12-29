@@ -19,40 +19,40 @@ class Solution {
                 return a[1] - b[1] ;
             }
         });
-        for(int i=0; i<tasks.length; i++){
-            if(minHeap.isEmpty() && endTime < tasks[i][0]){
-                endTime = tasks[i][0] ;
-            }
-            
-            if(endTime >= tasks[i][0]){
-                minHeap.add(tasks[i]) ;
-            }
-            else{
-                int[] taskToPerform = minHeap.remove();
-                sequence.add(indices.get(taskToPerform));
-                endTime += taskToPerform[1];
-                i--;
-            }
-        }
-        while(!minHeap.isEmpty()){
-            int[] taskToPerform = minHeap.remove();
-            sequence.add(indices.get(taskToPerform));
-            endTime += taskToPerform[1];    
-        }
-//         int idx = 0 ;
-//         while(idx < tasks.length || !minHeap.isEmpty()){
-//             if(minHeap.isEmpty() && endTime < tasks[idx][0]){
-//                 endTime = tasks[idx][0] ;
-//             }
-//             while(idx < tasks.length && endTime >= tasks[idx][0]){
-//                 minHeap.add(tasks[idx]) ;
-//                 ++idx ;
+//         for(int i=0; i<tasks.length; i++){
+//             if(minHeap.isEmpty() && endTime < tasks[i][0]){
+//                 endTime = tasks[i][0] ;
 //             }
             
+//             if(endTime >= tasks[i][0]){
+//                 minHeap.add(tasks[i]) ;
+//             }
+//             else{
+//                 int[] taskToPerform = minHeap.remove();
+//                 sequence.add(indices.get(taskToPerform));
+//                 endTime += taskToPerform[1];
+//                 i--;
+//             }
+//         }
+//         while(!minHeap.isEmpty()){
 //             int[] taskToPerform = minHeap.remove();
 //             sequence.add(indices.get(taskToPerform));
-//             endTime += taskToPerform[1];         
+//             endTime += taskToPerform[1];    
 //         }
+        int idx = 0 ;
+        while(idx < tasks.length || !minHeap.isEmpty()){
+            if(minHeap.isEmpty() && endTime < tasks[idx][0]){
+                endTime = tasks[idx][0] ;
+            }
+            while(idx < tasks.length && endTime >= tasks[idx][0]){
+                minHeap.add(tasks[idx]) ;
+                ++idx ;
+            }
+            
+            int[] taskToPerform = minHeap.remove();
+            sequence.add(indices.get(taskToPerform));
+            endTime += taskToPerform[1];         
+        }
 
         return sequence.stream().mapToInt(i->i).toArray() ;
     }
