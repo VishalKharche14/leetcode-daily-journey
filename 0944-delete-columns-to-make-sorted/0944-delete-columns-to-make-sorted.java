@@ -1,16 +1,14 @@
 class Solution {
     public int minDeletionSize(String[] strs) {
-        StringBuilder sb = new StringBuilder() ;
         int ans = 0 ;
         
         for(int i=0; i<strs[0].length(); i++){
-            for(int j=0; j<strs.length; j++){
-                sb.append(strs[j].charAt(i)) ;
+            for(int j=1; j<strs.length; j++){
+                if(strs[j].charAt(i) < strs[j-1].charAt(i)){
+                    ans++;
+                    break;
+                }
             }
-            char[] arr = sb.toString().toCharArray() ;
-            Arrays.sort(arr);
-            if(!sb.toString().equals(new String(arr))) ans++ ;
-            sb = new StringBuilder() ;
         }
         return ans ; 
     }
