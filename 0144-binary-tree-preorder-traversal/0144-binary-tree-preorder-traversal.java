@@ -14,8 +14,25 @@
  * }
  */
 class Solution {
+    List<Integer> list ;
+    TreeNode root ;
     public List<Integer> preorderTraversal(TreeNode root) {
-        List<Integer> list = new ArrayList<>() ;
+        this.root = root ;
+        this.list = new ArrayList<>() ;
+        // solveRecursively(root) ;
+        // solveIteratively() ;
+        morrisTraversal() ;
+        
+        return list ;
+        
+    }
+    private void solveRecursively(TreeNode root){
+        if(root == null) return ;
+        this.list.add(root.val) ;
+        solveRecursively(root.left) ;
+        solveRecursively(root.right) ;
+    }
+    private void solveIteratively(){
         Stack<TreeNode> stack = new Stack<>() ;
         
         stack.push(root) ;
@@ -27,7 +44,29 @@ class Solution {
             stack.push(curr.right) ;
             stack.push(curr.left) ;
         }
-        
-        return list ;
+    }
+    private void morrisTraversal(){
+        TreeNode prev ;
+        while(root != null){
+            if(root.left == null){
+                list.add(root.val) ;
+                root = root.right ;
+            }
+            else{
+                prev = root.left ;
+                while(prev.right != null && prev.right != root){
+                    prev = prev.right ;
+                }
+                if(prev.right == null){
+                    list.add(root.val) ;
+                    prev.right = root ;
+                    root = root.left ;
+                }
+                else{
+                    prev.right = null ;
+                    root = root.right ;
+                }
+            }
+        }
     }
 }
