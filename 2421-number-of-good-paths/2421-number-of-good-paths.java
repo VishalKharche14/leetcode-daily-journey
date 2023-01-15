@@ -75,24 +75,16 @@ class Solution {
         int y = findParent(q) ;
         
         if(x == y) return ;
-        if (heights[x] > heights[y]){
-            int temp = x ;
-            x = y ;
-            y = temp ;
+
+        if(heights[x] > heights[y]){
+            parents[y] = x ;
         }
-        
-        heights[y] += heights[x];
-        parents[x] = y;
-        // if(heights[x] > heights[y]){
-        //     parents[y] = x ;
-        // }
-        // else if(heights[y] > heights[x]){
-        //     parents[x] = y ;
-        // }
-        // else{
-        //     parents[y] = x ;
-        //     heights[y]++ ;
-        // }
-        
+        else if(heights[y] > heights[x]){
+            parents[x] = y ;
+        }
+        else{
+            parents[y] = x ;
+            heights[y]++ ;
+        }
     }
 }
