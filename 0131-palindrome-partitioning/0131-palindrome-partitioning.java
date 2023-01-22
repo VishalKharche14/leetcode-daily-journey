@@ -4,8 +4,8 @@ class Solution {
     public List<List<String>> partition(String s) {
         dp = new boolean[s.length()][s.length()] ;
         list = new ArrayList<>();
-        dynamicP(0,s,new ArrayList<String>());
-        // backtrack(0,s,new ArrayList<String>());
+        // dynamicP(0,s,new ArrayList<String>());
+        backtrack(0,s,new ArrayList<String>());
         return list ;
     }
     private void dynamicP(int idx, String s, List<String> curr){
