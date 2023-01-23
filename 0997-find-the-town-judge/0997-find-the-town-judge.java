@@ -1,14 +1,40 @@
 class Solution {
     public int findJudge(int n, int[][] trusts) {
-        Map<Integer,Integer> map = new HashMap<>();
-        Set<Integer> set = new HashSet<>();
+        // return in_out_degree(n,trusts);
+        return maxDegree(n,trusts);
+    }
+    private int in_out_degree(int n, int[][] trusts){
+        if (trusts.length < n - 1) {
+            return -1;
+        }
+
+        int[] indegrees = new int[n + 1];
+        int[] outdegrees = new int[n + 1];
+
+        for (int[] trust : trusts) {
+            outdegrees[trust[0]]++;
+            indegrees[trust[1]]++; 
+        }
+
+        for (int i = 1; i <= n; i++) {
+            if (indegrees[i] == n - 1 && outdegrees[i] == 0) {
+                return i;
+            }
+        }
+        return -1;    
+    }
+    private int maxDegree(int n, int[][] trusts){
+        
+        if(trusts.length < n-1) return -1 ;
+        
+        int[] degree = new int[n+1] ;
         for(int[] trust : trusts){
-            set.add(trust[0]);
-            map.put(trust[1],map.getOrDefault(trust[1],0)+1);
+            degree[trust[0]]--;
+            degree[trust[1]]++;
         }
-        for(int key : map.keySet()){
-            if(map.get(key)==n-1 && !set.contains(key)) return key ;
+        for(int i=1; i<=n; i++){
+            if(degree[i]==n-1) return i ;
         }
-        return trusts.length==0 && n==1 ? 1 : -1 ;
+        return -1 ;
     }
 }
