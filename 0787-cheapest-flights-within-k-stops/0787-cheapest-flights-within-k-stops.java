@@ -1,38 +1,36 @@
 class Solution {
-    public int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) {
-        Map<Integer, List<int[]>> adj = new HashMap<>();
-        for (int[] i : flights)
-            adj.computeIfAbsent(i[0], value -> new ArrayList<>()).add(new int[] { i[1], i[2] });
-
-        int[] dist = new int[n];
-        Arrays.fill(dist, Integer.MAX_VALUE);
+    public int findCheapestPrice(int n, int[][] flights, int src, int dst, int k){
+        List<List<int[]>> graphs = new ArrayList<>();
+        for(int i=0; i<n; i++){
+            graphs.add(new ArrayList<>());
+        }
+        for(int[] detail : flights){
+            graphs.get(detail[0]).add(new int[]{detail[1],detail[2]});
+        }
 
         Queue<int[]> q = new LinkedList<>();
-        q.offer(new int[] { src, 0 });
-        int stops = 0;
+        q.add(new int[]{src,0});
+        q.add(null);
+        int stops = 0 ;
 
-        while (stops <= k && !q.isEmpty()) {
-            int sz = q.size();
-            // Iterate on current level.
-            while (sz-- > 0) {
-                int[] temp = q.poll();
-                int node = temp[0];
-                int distance = temp[1];
+        int[] prices = new int[n];
+        Arrays.fill(prices,Integer.MAX_VALUE);
 
-                if (!adj.containsKey(node))
-                    continue;
-                // Loop over neighbors of popped node.
-                for (int[] e : adj.get(node)) {
-                    int neighbour = e[0];
-                    int price = e[1];
-                    if (price + distance >= dist[neighbour])
-                        continue;
-                    dist[neighbour] = price + distance;
-                    q.offer(new int[] { neighbour, dist[neighbour] });
+        while(!q.isEmpty() && stops <= k){
+            int[] temp = q.remove();
+            if(temp==null){
+                stops++;
+                if(!q.isEmpty()) q.add(null);
+                continue;
+            }
+
+            for(int[] arr : graphs.get(temp[0])){
+                if(arr[1]+temp[1] < prices[arr[0]]){
+                    prices[arr[0]] = arr[1]+temp[1] ;
+                    q.add(new int[]{arr[0],arr[1]+temp[1]});
                 }
             }
-            stops++;
         }
-        return dist[dst] == Integer.MAX_VALUE ? -1 : dist[dst];
+        return prices[dst] == Integer.MAX_VALUE ? -1 : prices[dst];
     }
 }
