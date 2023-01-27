@@ -42,7 +42,7 @@ class Solution {
             set.add(curr.str);
         }
         // if a word is concatenated by more than 2 words
-        if(newWord.str != null){
+        else if(newWord.str != null){
             search2(curr,root);
         }
         //checking exact same word characted by character in trie
