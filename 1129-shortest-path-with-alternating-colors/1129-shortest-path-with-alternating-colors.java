@@ -11,12 +11,8 @@ class Solution {
             blueList.get(edge[0]).add(edge[1]);
         }
         
-        int[] ans = new int [n];
-        Arrays.fill(ans,Integer.MAX_VALUE);
-        ans[0] = 0 ;
-        
         int[][] visited = new int[n][2];
-        for(int[] arr : visited) Arrays.fill(arr,-1);
+        for(int[] arr : visited) Arrays.fill(arr,Integer.MAX_VALUE);
         
         int count = 1 ;
         //red = 0 blue = 1
@@ -35,10 +31,9 @@ class Solution {
             int currNode = temp[0];
             int colour = temp[1];
             
-            if(visited[currNode][colour] != -1) continue;
+            if(visited[currNode][colour] != Integer.MAX_VALUE) continue;
             visited[currNode][colour] = count;
-            // if(ans[currNode] != Integer.MAX_VALUE && count > ans[currNode]) continue;
-            ans[currNode] = Math.min(ans[currNode],count);
+            
             if(colour==0){
                 if(blueList.containsKey(currNode)) for(int node : blueList.get(currNode)){
                     q.add(new int[]{node,1});
@@ -49,8 +44,11 @@ class Solution {
                 }
             }
         }
-        for(int i=0; i<n; i++){
-            if(ans[i]==Integer.MAX_VALUE) ans[i]=-1;
+        
+        int[] ans = new int [n];
+        for(int i=1; i<n; i++){
+            ans[i] = Math.min(visited[i][0],visited[i][1]);
+            if(ans[i] == Integer.MAX_VALUE) ans[i] = -1 ;
         }
         return ans;
     }
